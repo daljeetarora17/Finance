@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Finance/v16
+/.vs
+/NDFinance.API/bin/Debug/netcoreapp3.1
+/NDFinance.API/obj/Debug/netcoreapp3.1
+/NDFinance.API/obj/Release/netcoreapp3.1
+/NDFinance.API/obj
