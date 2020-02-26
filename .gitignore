@@ -8,3 +8,5 @@
 /NDFinance.API/obj/Debug/netcoreapp3.1
 /NDFinance.API/obj/Release/netcoreapp3.1
 /NDFinance.API/obj
+/NDFinance/obj
+/NDFinance/bin/Debug/netcoreapp3.1
