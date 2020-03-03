@@ -15,20 +15,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using NDFinance.API.Helpers;
 using NDFinance.API.Services;
+using Microsoft.OpenApi.Models;
 
 namespace NDFinance.API
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _env;
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-        public static string connectionString = "";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -64,6 +62,11 @@ namespace NDFinance.API
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
 
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Finance API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,21 +81,22 @@ namespace NDFinance.API
                 .AllowAnyHeader());
 
             app.UseAuthentication();
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            connectionString = Configuration["ConnectionStrings:FinanceDatabase"];
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
             });
         }
     }

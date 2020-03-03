@@ -10,22 +10,54 @@ namespace NDFinance.API.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
-        void Update(User user, string password = null);
-        void Delete(int id);
+        public User Authenticate(string UserName, string Password);
+        public List<User> GetAll();
+        public bool CreateUser(UserVM userVM);
     }
 
     public class UserService : IUserService
     {
-        private FinanceDBContext _context;
 
-        public UserService(FinanceDBContext context)
+        public List<User> GetAll()
         {
-            _context = context;
-        }               
+            using (FinanceDBContext _context = new FinanceDBContext())
+            {
+                return _context.User.ToList<User>();
+            }
+        }
+
+        public User Authenticate(string UserName, string Password)
+        {
+
+            using (FinanceDBContext _context = new FinanceDBContext())
+            {
+                return _context.User.FirstOrDefault(x => x.Password == Password && x.UserName == UserName);
+            }
+        }
+
+        public bool CreateUser(UserVM userVM)
+        {
+            using (FinanceDBContext _context = new FinanceDBContext())
+            {
+                User newUser = new User
+                {
+                    Email = userVM.Email,
+                    FirstName = userVM.FirstName,
+                    LastName = userVM.LastName,
+                    Id = 0,
+                    Password = userVM.Password,
+                    PhoneNo = userVM.PhoneNo,
+                    CreatedDate = DateTime.Now,
+                    IsDeleted = false,
+                    ModifiedDate = DateTime.Now,
+                    UserName = userVM.Email
+                };
+
+                _context.User.Add(newUser);
+                _context.SaveChanges();
+                return true;
+            }
+        }
 
         // private helper methods
 
