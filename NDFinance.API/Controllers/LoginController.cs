@@ -33,7 +33,7 @@ namespace NDFinance.API.Controllers
         [HttpPost]
         public IActionResult Post(LoginVM userVM)
         {
-            if (string.IsNullOrEmpty(userVM.Username) && string.IsNullOrEmpty(userVM.Password))
+            if (!string.IsNullOrEmpty(userVM.Username) && !string.IsNullOrEmpty(userVM.Password))
             {
                 var user = _userService.Authenticate(userVM.Username, userVM.Password);
 

@@ -31,7 +31,7 @@ namespace NDFinance.API.Services
 
             using (FinanceDBContext _context = new FinanceDBContext())
             {
-                return _context.User.FirstOrDefault(x => x.Password == Password && x.UserName == UserName);
+                return _context.User.FirstOrDefault(x => x.Password.Trim() == Password && x.UserName == UserName);
             }
         }
 

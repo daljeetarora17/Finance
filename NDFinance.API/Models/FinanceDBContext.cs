@@ -23,7 +23,7 @@ namespace NDFinance.API.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-VLHO45I\\SQLEXPRESS2017;Database=FinanceDB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-VLHO45I\\SQLEXPRESS2017;Initial Catalog=FinanceDB;Integrated Security=True;");
             }
         }
 
@@ -53,7 +53,7 @@ namespace NDFinance.API.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(12);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.PhoneNo).HasColumnType("numeric(10, 0)");
 
